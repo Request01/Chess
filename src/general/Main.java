@@ -23,11 +23,28 @@ public class Main {
     }
 
     private void run(float framesPerSecond) {
+        long lastUpdate = System.currentTimeMillis();
+        long sleepTime = (long) (1000/framesPerSecond); // if drawn instantaneously
 
         // ends, when the window is closed.
         while (true) {
+
             gameWindow.draw();
-            // update other stuff
+            // other update calls
+
+            // and sleep
+            long currentUpdate = System.currentTimeMillis();
+            long diff = sleepTime - (currentUpdate - lastUpdate);
+
+            if (diff > 0) {
+                try {
+                    Thread.sleep(diff);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            lastUpdate = currentUpdate;
         }
     }
 
