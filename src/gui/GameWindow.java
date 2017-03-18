@@ -13,7 +13,6 @@ import java.awt.image.BufferedImage;
 public class GameWindow extends JFrame {
 
     private Board board;
-    private JPanel container;
 
     /** Buffering: two layers */
     private BufferStrategy buffer;
@@ -21,24 +20,20 @@ public class GameWindow extends JFrame {
     /** The Color of the Background */
     private static final Color BACKGROUND_COLOR = new Color(21, 0, 57);
 
+    /** the maximum area of the window in px. The task bar does not count for that.  */
+    public static final int WIDTH = getWindowWidth();
+
+    /** the maximum area of the window in px. The task bar does not count for that. */
+    public static final int HEIGHT = getWindowHeight();
+
     /**
      * Creates a new GameWindow.
      */
-    public GameWindow (int width , int height) {
-        super("Chess Variant");
-        initializeGameWindow(width, height);
-
-        container = new JPanel();
-        board = new Board(50, 2, 20, 40, 4);
-
-        JLabel boardLabel = new JLabel("HI");
-
-        container.add(boardLabel);
-    }
-
-    /** Creates a new GameWindow with the default width and height. */
     public GameWindow () {
-        this(800, 600);
+        super("Chess Variant");
+        initializeGameWindow(WIDTH, HEIGHT);
+
+        board = new Board(80, 3, 20, 40, 16, 3);
     }
 
     private void initializeGameWindow (int width, int height) {
@@ -61,6 +56,14 @@ public class GameWindow extends JFrame {
         buffer = getBufferStrategy();
     }
 
+    private static int getWindowWidth () {
+        return (int) GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getWidth();
+    }
+
+    private static int getWindowHeight () {
+        return (int) GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight();
+    }
+
     /** Gets the Graphics2D object, sets the rendering hints, draws the backgrounds, calls the screen to draw their
      *  part and finally disposes the graphics object. */
     public void draw() {
@@ -71,7 +74,7 @@ public class GameWindow extends JFrame {
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        g.fillRect(0, 0, getWindowWidth(), getWindowHeight());
 
         board.draw(g);
 

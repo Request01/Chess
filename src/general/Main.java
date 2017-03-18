@@ -22,6 +22,11 @@ public class Main {
         gameWindow.buffering();
     }
 
+    /** runs the game at the defined frame rate. If the drawing takes to long, the sleeping time is reduced to keep the
+     *  frame rate constant.
+     *
+     *  @param framesPerSecond the number of frames per second.
+     */
     private void run(float framesPerSecond) {
         long lastUpdate = System.currentTimeMillis();
         long sleepTime = (long) (1000/framesPerSecond); // if drawn instantaneously
